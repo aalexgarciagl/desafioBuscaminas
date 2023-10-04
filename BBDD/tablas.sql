@@ -11,3 +11,13 @@ CREATE TABLE usuario (
     partidasJugadas INT DEFAULT 0,
     partidasGanadas INT DEFAULT 0
 );
+
+CREATE TABLE partida (
+    idPartida INT AUTO_INCREMENT PRIMARY KEY,
+    idPersona INT NOT NULL,
+    tablaOculta VARCHAR(255),
+    tablaJugador VARCHAR(255),
+    finalizada BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (idPersona) REFERENCES persona(idUsuario)
+);
+
