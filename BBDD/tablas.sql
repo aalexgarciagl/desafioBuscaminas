@@ -17,7 +17,6 @@ CREATE TABLE partida (
     idPersona INT NOT NULL,
     tablaOculta VARCHAR(255),
     tablaJugador VARCHAR(255),
-    finalizada BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (idPersona) REFERENCES persona(idUsuario)
+    finalizada INT DEFAULT 0,    
 );
 
