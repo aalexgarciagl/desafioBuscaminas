@@ -1,4 +1,6 @@
-<?php namespace Constantes; 
+<?php 
+
+namespace Constantes; 
 
 
 class Constantes{
@@ -8,6 +10,6 @@ class Constantes{
   const PASSWORD = ""; 
   const NAME = "buscaminas"; 
 
-  static $selecUser = "SELECT * FROM usuario WHERE correo = ?"; 
+  static $selecUser = "SELECT * FROM usuarios WHERE correo = ?"; 
 
 }

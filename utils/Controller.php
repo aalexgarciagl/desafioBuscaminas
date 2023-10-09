@@ -2,8 +2,11 @@
 
 namespace Controller;
 
+require_once (__DIR__."/../conexion/ConexionBD.php");
+require_once (__DIR__."/../utils/Factoria.php");
+
 use ConexionBD\ConexionBD;
-use Factoria\Factoria; 
+use Factoria\Factoria;  
 
 
 class Controller{
@@ -14,11 +17,11 @@ class Controller{
     $user = ConexionBD::seleccionarUser($correo); 
     
     if(Factoria::iniciarSesion($correo,$password)){      
-      json_encode(["Cod" => $cod,
+      echo json_encode(["Cod" => $cod,
                    "mes" => $mes,
                    "login" => "correcto"]); 
     }else{      
-      json_encode(["Cod" => $cod,
+      echo json_encode(["Cod" => $cod,
                    "mes" => $mes,
                    "login" => "incorrecto"]);
     }
@@ -32,8 +35,16 @@ class Controller{
     }
   }
 
-  static function developerMode(){
-    
+  static function developerMode($modo){
+    //modo developer
+    if($modo == 1){
+
+    }
+    //modo jugador
+    elseif($modo == 0){
+
+    }
+
   }
 
   

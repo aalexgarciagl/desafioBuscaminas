@@ -1,10 +1,11 @@
 <?php namespace ConexionBD;
 
+
+require_once (__DIR__."/../utils/Constantes.php");
+require_once (__DIR__."/../model/User.php");
+
 use Constantes\Constantes;
 use User\User; 
-
-require (__DIR__."/../utils/Constantes.php");
-require (__DIR__."/../model/User.php");
 
 
 
@@ -33,7 +34,7 @@ class ConexionBD{
     mysqli_stmt_execute($stmt); 
     $resultado = mysqli_stmt_get_result($stmt);
     while($fila = mysqli_fetch_array($resultado)){
-      $user = new User($fila["idUsuario"],$fila["nombre"],$fila["correo"],$fila["password"],$fila["admin"],$fila["partidasJugadas"],$fila["partidasGanadas"]); 
+      $user = new User($fila["idUsuario"],$fila["nombre"],$fila["correo"],$fila["pass"],$fila["esAdmin"],$fila["partidasJugadas"],$fila["partidasGanadas"]); 
     }
     self::desconectar($conexion);     
     return $user; 
