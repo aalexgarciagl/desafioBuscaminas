@@ -13,12 +13,15 @@ unset($argu[0]);
 
 
 if($requestMethod == "GET"){
-  if(count($argu) == 3){
-    if(Controller::inciarSesionController($argu[1],$argu[2])){
-      Controller::developerMode($argu[3]); 
-        
-    }else{
-      
-    }
+  
+}elseif($requestMethod == "POST"){
+
+  if($argu[1] == "admin"){
+    Controller::registrarJugadorAdmin();     
   }
+
+}elseif($requestMethod == "PUT"){
+  
+}elseif($requestMethod == "DELETE"){
+  
 }

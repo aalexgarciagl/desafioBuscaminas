@@ -3,50 +3,49 @@
 namespace Controller;
 
 require_once (__DIR__."/../conexion/ConexionBD.php");
-require_once (__DIR__."/../utils/Factoria.php");
+
 
 use ConexionBD\ConexionBD;
-use Factoria\Factoria;  
+use User\User;  
+ 
 
 
 class Controller{
 
-  static function inciarSesionController($correo,$password){
-    $cod = 200;
-    $mes = "OK";    
+
+  static function iniciarSesion($correo,$password){
+    $correct = false; 
     $user = ConexionBD::seleccionarUser($correo); 
-    
-    if(Factoria::iniciarSesion($correo,$password)){      
-      echo json_encode(["Cod" => $cod,
-                   "mes" => $mes,
-                   "login" => "correcto"]); 
-    }else{      
-      echo json_encode(["Cod" => $cod,
-                   "mes" => $mes,
-                   "login" => "incorrecto"]);
-    }
-    header('HTTP/1.1 '.$cod.' '.$mes);
-    
-    //comprueba si el usuario es admin o no. 
-    if($user->admin == 0){
-      return false; 
+    if($user->password == $password){
+      $correct = true; 
     }else{
-      return true; 
+      $correct = false; 
+    }
+    return $correct; 
+  }
+
+  static function registrarJugadorAdmin(){
+    $datosJSON = json_decode(file_get_contents("php://input"),true);
+    $user = ConexionBD::seleccionarUser($datosJSON["correo"]);     
+    if($user->admin == 1){
+      $cod = 200;
+      $mes = "OK"; 
+      header('HTTP/1.1 '.$cod.' '.$mes);
+      $newUser = new User(0,$datosJSON["newUserName"],$datosJSON["newUserCorreo"],$datosJSON["newUserPass"],0,0,0); 
+      ConexionBD::insertarPersona($newUser); 
+      echo json_encode(["user" => $newUser->correo,
+                        "estado" => "insertado"]); 
+
+    }else{
+      $cod = 400;
+      $mes = "No tienes permisos de administrador";
+      header('HTTP/1.1 '.$cod.' '.$mes);
+      echo json_encode(["cod" => $cod,
+                        "mes" => $mes]); 
     }
   }
 
-  static function developerMode($modo){
-    //modo developer
-    if($modo == 1){
-
-    }
-    //modo jugador
-    elseif($modo == 0){
-
-    }
-
-  }
+}
 
   
 
-}

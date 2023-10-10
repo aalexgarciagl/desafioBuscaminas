@@ -11,5 +11,5 @@ class Constantes{
   const NAME = "buscaminas"; 
 
   static $selecUser = "SELECT * FROM usuarios WHERE correo = ?"; 
-
+  static $insertarPersona = "INSERT INTO usuarios VALUES (DEFAULT,?,?,?,DEFAULT,0,0)"; 
 }
