@@ -13,6 +13,11 @@ unset($argu[0]);
 
 
 if($requestMethod == "GET"){
+  /**
+   * Para admin:
+   *  Listar usuarios
+   *  Buscar usuario por correo
+  */
   
 }elseif($requestMethod == "POST"){
 
@@ -21,7 +26,14 @@ if($requestMethod == "GET"){
   }
 
 }elseif($requestMethod == "PUT"){
+  /**
+   * Para admin: 
+   *  Modificar datos de cualquier usuario añadiendo los nuevos datos al JSON e indicando el correo en la URL
+  */
   
 }elseif($requestMethod == "DELETE"){
-  
+  /**
+   * Para admin: 
+   *  Le pasaremos por la URL el correo del usuasrio que queremos eliminar
+  */
 }
