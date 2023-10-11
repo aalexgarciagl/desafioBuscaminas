@@ -13,7 +13,7 @@ $paths = $_SERVER['REQUEST_URI'];
 $argu = explode("/",$paths);
 unset($argu[0]); 
 
-//REALIZAR CONTROL DE ERRORES Y PARTE USUARIO. 
+
 
 if($requestMethod == "GET"){  
   
@@ -38,6 +38,16 @@ if($requestMethod == "GET"){
   //USER. 
   elseif($argu[1] == "user"){
 
+    if(count($argu) == 1){
+      Controller::crearTableroDefault(); 
+    }
+
+    /**
+     * USER:
+     *  Crear partidas personalizadas indicando tamaño tablero y minas en url.
+     *  Crear partidas predeterminadas en la clase constantes 10 casillas 3 minas. 
+    */
+
   }else{
     echo Error::noArgumentos();
   }  
@@ -52,6 +62,16 @@ if($requestMethod == "GET"){
     }else{
       echo Controller::registrarJugadorAdmin();  
     }       
+  }
+  
+  //USER: 
+  elseif($argu[1] == "user"){
+    /**
+     * USER: 
+     *  Se le mostrara las partidas que tenga activas, en caso de no tener una partida activa se le pedira que cree una. Si este tiene alguna partida abierta se le mostrara todas las disponibles y se le pedira que seleccione una de ellas. Una vez seleccionada podremos jugar. 
+     * 
+     *  Le indicaremos en el JSON la casilla que queremos destapar
+    */
   }
 
 }elseif($requestMethod == "PUT"){  
@@ -70,6 +90,10 @@ if($requestMethod == "GET"){
     }
      
   }
+  //USER: 
+  elseif($argu[1] == "user"){
+
+  }
   
 }elseif($requestMethod == "DELETE"){
   
@@ -82,5 +106,9 @@ if($requestMethod == "GET"){
     }else{
       echo Error::noArgumentos(); 
     }
+  }
+
+  elseif($argu[1] == "user"){
+
   }
 }

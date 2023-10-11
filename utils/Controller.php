@@ -13,7 +13,10 @@ use User\User;
 
 
 class Controller{
-  
+
+  static function crearTableroDefault(){
+
+  }  
 
   static function registrarJugadorAdmin(){
     $datosJSON = json_decode(file_get_contents("php://input"),true);
