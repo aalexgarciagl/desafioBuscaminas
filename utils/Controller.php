@@ -95,6 +95,22 @@ class Controller{
     
   }
 
+  static function borrarUsuario($correo){
+    if(ConexionBD::borrarPersona($correo)){
+      $cod = 200;
+      $mes = "OK";
+      header('HTTP/1.1 '.$cod.' '.$mes);
+      return json_encode(["cod" => $cod,
+                          "mes" => "eliminado correcto"]);
+    }else{
+      $cod = 400;
+      $mes = "error";
+      header('HTTP/1.1 '.$cod.' '.$mes);
+      return json_encode(["cod" => $cod,
+                          "mes" => "fallo al eliminar"]);
+    }
+  }
+
 }
 
   

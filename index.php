@@ -32,18 +32,16 @@ if($requestMethod == "GET"){
   }
 
 }elseif($requestMethod == "PUT"){
-  /**
-   * Para admin: 
-   *  Modificar datos de cualquier usuario añadiendo los nuevos datos al JSON e indicando el correo en la URL
-  */
-
+  
+  //ADMIN: Modifica los datos del usuario que se le pase por la URL, los nuevos datos los saca del JSON.
   if($argu[1] == "admin" && count($argu) == 2){
     echo Controller::modificarDatos($argu[2]); 
   }
   
 }elseif($requestMethod == "DELETE"){
-  /**
-   * Para admin: 
-   *  Le pasaremos por la URL el correo del usuasrio que queremos eliminar
-  */
+  
+  //ADMIN: Elimina al ususario con el correo que le pasemos en la URL. 
+  if($argu[1] == "admin" && count($argu) == 2){
+    echo Controller::borrarUsuario($argu[2]); 
+  }
 }

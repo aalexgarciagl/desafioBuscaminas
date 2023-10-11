@@ -83,4 +83,18 @@ class ConexionBD{
     }
   }
 
+  static function borrarPersona($correo){
+    $conexion = ConexionBD::conectar();
+    $stmt = mysqli_prepare($conexion, Constantes::$borrarPersona);
+    mysqli_stmt_bind_param($stmt, "s", $correo);
+    
+    if (mysqli_stmt_execute($stmt)) {      
+        ConexionBD::desconectar($conexion);
+        return true;
+    } else {      
+        ConexionBD::desconectar($conexion);
+        return false;
+    }
+  }
+
 }
