@@ -59,7 +59,7 @@ class ConexionBD{
   static function insertarPersona($persona){
     $conexion = self::conectar(); 
     $stmt = mysqli_prepare($conexion,Constantes::$insertarPersona); 
-    mysqli_stmt_bind_param($stmt,"sss",$persona->nombre,$persona->correo,$persona->password); 
+    mysqli_stmt_bind_param($stmt,"sssi",$persona->nombre,$persona->correo,$persona->password,$persona->admin); 
 
     try{
       mysqli_stmt_execute($stmt);

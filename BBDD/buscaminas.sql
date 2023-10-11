@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-10-2023 a las 09:37:24
+-- Tiempo de generación: 11-10-2023 a las 11:49:03
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 8.0.0
 
@@ -58,45 +58,32 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`idUsuario`, `nombre`, `correo`, `pass`, `esAdmin`, `partidasJugadas`, `partidasGanadas`) VALUES
 (1, 'Alejandro', 'alejandro', '1234', 1, 0, 0),
 (2, 'Laura', 'laura', '1234', 0, 0, 0),
-(7, 'Charlex', 'charlex', '1234', 0, 0, 0),
-(8, 'Fornell', 'fornell', '1234', 0, 0, 0),
-(9, 'Gonzalo', 'gonzalo', '1234', 0, 0, 0),
-(10, 'Juanra', 'juanra', '1234', 0, 0, 0),
-(11, 'Chechu', 'chechu', '1234', 0, 0, 0),
-(12, 'Guille', 'guille', '1234', 0, 0, 0);
+(3, 'Charlex', 'charlex', '1234', 0, 0, 0),
+(4, 'Fornell', 'fornell', '1234', 0, 0, 0),
+(5, 'Gonzalo', 'gonzalo', '1234', 0, 0, 0),
+(6, 'Juanra', 'juanra', '1234', 0, 0, 0),
+(7, 'Chechu', 'chechu', '1234', 0, 0, 0),
+(8, 'Guille', 'guille', '1234', 0, 0, 0);
 
 --
 -- Índices para tablas volcadas
 --
 
 --
--- Indices de la tabla `partida`
---
-ALTER TABLE `partida`
-  ADD PRIMARY KEY (`idPartida`);
-
---
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`idUsuario`),
-  ADD UNIQUE KEY `correo` (`correo`);
+  ADD PRIMARY KEY (`idUsuario`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT de la tabla `partida`
---
-ALTER TABLE `partida`
-  MODIFY `idPartida` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

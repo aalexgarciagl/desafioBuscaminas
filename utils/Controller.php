@@ -22,7 +22,7 @@ class Controller{
       $cod = 200;
       $mes = "OK"; 
       header('HTTP/1.1 '.$cod.' '.$mes);
-      $newUser = new User(0,$datosJSON["newUserName"],$datosJSON["newUserCorreo"],$datosJSON["newUserPass"],0,0,0); 
+      $newUser = new User(0,$datosJSON["newUserName"],$datosJSON["newUserCorreo"],$datosJSON["newUserPass"],$datosJSON["newEsAdmin"],0,0); 
       ConexionBD::insertarPersona($newUser); 
       return json_encode(["user" => $newUser->correo,
                         "estado" => "insertado"]); 
