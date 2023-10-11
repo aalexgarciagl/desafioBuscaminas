@@ -1,21 +1,36 @@
 <?php
 
 namespace Controller;
+use Constantes\Constantes;
 
 require_once (__DIR__."/../conexion/ConexionBD.php");
 require_once (__DIR__."/../Error/Error.php");
+require_once (__DIR__."/../model/Partida.php"); 
 
 
 use ConexionBD\ConexionBD;
 use Error\Error;
+use Partida\Partida;
 use User\User;  
  
 
 
 class Controller{
 
-  static function crearTableroDefault(){
+  static function crearTableroDefault($user){
+    $tablero = array_fill(0,Constantes::SIZE_TABLERO_DEFAULT,0); 
+    $tableroOculto = array_fill(0,Constantes::SIZE_TABLERO_DEFAULT,"*");
+    for($i = 0; $i<Constantes::NUM_MINAS_DEFAULT; $i++){
+      $indiceAle = rand(0, count($tablero)-1);
+      if($tablero[$indiceAle] == 0){
+        $tablero[$indiceAle] = 1; 
+      }else{
+        $i--; 
+      }
+    }    
 
+    $partida = new Partida($user->idUsuario,implode("",$tableroOculto),$tablero,0); 
+    ConexionBD::insertarPartida($partida); 
   }  
 
   static function registrarJugadorAdmin(){

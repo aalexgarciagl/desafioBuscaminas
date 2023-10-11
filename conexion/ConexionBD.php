@@ -97,4 +97,17 @@ class ConexionBD{
     }
   }
 
+  static function insertarPartida($partida){
+    $conexion = self::conectar(); 
+    $stmt = mysqli_prepare($conexion,Constantes::$insertarPartida); 
+    mysqli_stmt_bind_param($stmt,"issi",$partida->idPersona,$partida->tablaOculta,$partida->tablaJugador,$partida->finalizada); 
+
+    try{
+      mysqli_stmt_execute($stmt);
+    }catch(Exception $e){
+      $e->getMessage();
+    }
+    ConexionBD::desconectar($conexion); 
+  }
+
 }

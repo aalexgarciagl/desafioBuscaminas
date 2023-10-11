@@ -37,16 +37,9 @@ if($requestMethod == "GET"){
   }
   //USER. 
   elseif($argu[1] == "user"){
+    
 
-    if(count($argu) == 1){
-      Controller::crearTableroDefault(); 
-    }
-
-    /**
-     * USER:
-     *  Crear partidas personalizadas indicando tamaño tablero y minas en url.
-     *  Crear partidas predeterminadas en la clase constantes 10 casillas 3 minas. 
-    */
+    
 
   }else{
     echo Error::noArgumentos();
@@ -66,6 +59,11 @@ if($requestMethod == "GET"){
   
   //USER: 
   elseif($argu[1] == "user"){
+
+    if(count($argu) == 1){
+      //Falta adquirir user del json
+      Controller::crearTableroDefault($user);  
+    }
     /**
      * USER: 
      *  Se le mostrara las partidas que tenga activas, en caso de no tener una partida activa se le pedira que cree una. Si este tiene alguna partida abierta se le mostrara todas las disponibles y se le pedira que seleccione una de ellas. Una vez seleccionada podremos jugar. 
