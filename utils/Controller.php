@@ -45,6 +45,16 @@ class Controller{
     }
   }
 
+  static function mostrarUsuarios(){
+    $personas = ConexionBD::seleccionarPersonas(); 
+    return json_encode($personas); 
+  }
+
+  static function mostrarUsuario($correo){
+    $usuario = ConexionBD::seleccionarUser($correo); 
+    return json_encode($usuario); 
+  }
+
 }
 
   

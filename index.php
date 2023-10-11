@@ -12,15 +12,21 @@ unset($argu[0]);
 
 
 
-if($requestMethod == "GET"){
-  /**
-   * Para admin:
-   *  Listar usuarios
-   *  Buscar usuario por correo
-  */
+if($requestMethod == "GET"){  
   
+  //ADMIN: Lista todos los usuarios.
+  if($argu[1] == "admin" && count($argu) == 1){
+    echo Controller::mostrarUsuarios(); 
+  }
+
+  //ADMIN: Busca usuario por el correo.
+  if($argu[1] == "admin" && count($argu) == 2){
+    echo Controller::mostrarUsuario($argu[2]); 
+  }
+
 }elseif($requestMethod == "POST"){
 
+  //ADMIN: Registra un jugador pasandole los datos por el JSON.
   if($argu[1] == "admin"){
     Controller::registrarJugadorAdmin();     
   }
