@@ -54,11 +54,21 @@ if($requestMethod == "GET"){
     }       
   }
 
-}elseif($requestMethod == "PUT"){
+}elseif($requestMethod == "PUT"){  
   
-  //ADMIN: Modifica los datos del usuario que se le pase por la URL, los nuevos datos los saca del JSON.
-  if($argu[1] == "admin" && count($argu) == 2){
-    echo Controller::modificarDatos($argu[2]); 
+  if($argu[1] == "admin"){
+
+    if(count($argu) == 2){
+
+      //ADMIN: Modifica los datos del usuario que se le pase por la URL, los nuevos datos los saca del JSON.
+      echo Controller::modificarDatos($argu[2]);
+
+    }elseif(count($argu) > 2){
+      echo Error::demasiadosArgumentos(); 
+    }else{
+      echo Error::noArgumentos(); 
+    }
+     
   }
   
 }elseif($requestMethod == "DELETE"){
