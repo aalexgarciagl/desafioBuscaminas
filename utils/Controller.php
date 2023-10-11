@@ -3,26 +3,17 @@
 namespace Controller;
 
 require_once (__DIR__."/../conexion/ConexionBD.php");
+require_once (__DIR__."/../Error/Error.php");
 
 
 use ConexionBD\ConexionBD;
+use Error\Error;
 use User\User;  
  
 
 
 class Controller{
-
-
-  static function iniciarSesion($correo,$password){
-    $correct = false; 
-    $user = ConexionBD::seleccionarUser($correo); 
-    if($user->password == $password){
-      $correct = true; 
-    }else{
-      $correct = false; 
-    }
-    return $correct; 
-  }
+  
 
   static function registrarJugadorAdmin(){
     $datosJSON = json_decode(file_get_contents("php://input"),true);
@@ -37,11 +28,7 @@ class Controller{
                         "estado" => "insertado"]); 
 
     }else{
-      $cod = 400;
-      $mes = "No tienes permisos de administrador";
-      header('HTTP/1.1 '.$cod.' '.$mes);
-      return json_encode(["cod" => $cod,
-                        "mes" => $mes]); 
+      echo Error::permisosAdminDenegados(); 
     }
   }
 
@@ -79,18 +66,10 @@ class Controller{
         return json_encode(["datos antiguos" => $user,
                             "actualizacion" => "correcto"]); 
       }else{
-        $cod = 400;
-        $mes = "No se ha podido actualizar datos";
-        header('HTTP/1.1 '.$cod.' '.$mes);
-        return json_encode(["cod" => $cod,
-                          "mes" => $mes]); 
+        echo Error::updatePersona(); 
       }
     }else{
-      $cod = 400;
-      $mes = "Credenciales invalidos";
-      header('HTTP/1.1 '.$cod.' '.$mes);
-      return json_encode(["cod" => $cod,
-                          "mes" => $mes]); 
+      echo Error::credencialesInvalidos();  
     }
     
   }
@@ -103,11 +82,7 @@ class Controller{
       return json_encode(["cod" => $cod,
                           "mes" => "eliminado correcto"]);
     }else{
-      $cod = 400;
-      $mes = "error";
-      header('HTTP/1.1 '.$cod.' '.$mes);
-      return json_encode(["cod" => $cod,
-                          "mes" => "fallo al eliminar"]);
+      echo Error::eliminarPersona(); 
     }
   }
 
