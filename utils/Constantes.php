@@ -13,4 +13,5 @@ class Constantes{
   static $selecUser = "SELECT * FROM usuarios WHERE correo = ?"; 
   static $insertarPersona = "INSERT INTO usuarios VALUES (DEFAULT,?,?,?,DEFAULT,0,0)"; 
   static $seleccAllPersonas = "SELECT * FROM usuarios"; 
+  static $updatePersona = "UPDATE usuarios SET nombre = ?, correo = ?, pass = ?, esAdmin = ? WHERE correo = ?";
 }

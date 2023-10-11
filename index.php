@@ -28,7 +28,7 @@ if($requestMethod == "GET"){
 
   //ADMIN: Registra un jugador pasandole los datos por el JSON.
   if($argu[1] == "admin"){
-    Controller::registrarJugadorAdmin();     
+    echo Controller::registrarJugadorAdmin();     
   }
 
 }elseif($requestMethod == "PUT"){
@@ -36,6 +36,10 @@ if($requestMethod == "GET"){
    * Para admin: 
    *  Modificar datos de cualquier usuario añadiendo los nuevos datos al JSON e indicando el correo en la URL
   */
+
+  if($argu[1] == "admin" && count($argu) == 2){
+    echo Controller::modificarDatos($argu[2]); 
+  }
   
 }elseif($requestMethod == "DELETE"){
   /**

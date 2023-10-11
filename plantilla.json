@@ -4,7 +4,8 @@
 {
   "correo": "alejandro",
   "pass": "1234",
-  "newUserName":"Jose",
-  "newUserCorreo":"jose",
-  "newUserPass": "1234"
+  "newUserName":"Guille",
+  "newUserCorreo":"guille",
+  "newUserPass": "1234",
+  "newEsAdmin":0
 }

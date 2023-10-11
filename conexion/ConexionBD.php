@@ -69,4 +69,18 @@ class ConexionBD{
     ConexionBD::desconectar($conexion); 
   }
 
+  static function updatePersona($correo,$nuevosDatos){
+    $conexion = ConexionBD::conectar();
+    $stmt = mysqli_prepare($conexion, Constantes::$updatePersona);
+    mysqli_stmt_bind_param($stmt, "sssis",$nuevosDatos["newUserName"],$nuevosDatos["newUserCorreo"],$nuevosDatos["newUserPass"], $nuevosDatos["newEsAdmin"], $correo);
+
+    if (mysqli_stmt_execute($stmt)) {      
+      ConexionBD::desconectar($conexion);
+      return true;
+    } else {      
+      ConexionBD::desconectar($conexion);
+      return false;
+    }
+  }
+
 }
