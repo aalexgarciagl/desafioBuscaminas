@@ -74,7 +74,13 @@ if($requestMethod == "GET"){
 }elseif($requestMethod == "DELETE"){
   
   //ADMIN: Elimina al ususario con el correo que le pasemos en la URL. 
-  if($argu[1] == "admin" && count($argu) == 2){
-    echo Controller::borrarUsuario($argu[2]); 
+  if($argu[1] == "admin"){
+    if(count($argu) == 2){
+      echo Controller::borrarUsuario($argu[2]);
+    }elseif(count($argu) > 2){
+      echo Error::demasiadosArgumentos(); 
+    }else{
+      echo Error::noArgumentos(); 
+    }
   }
 }
