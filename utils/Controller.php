@@ -75,14 +75,18 @@ class Controller{
   }
 
   static function borrarUsuario($correo){
-    if(ConexionBD::borrarPersona($correo)){
-      $cod = 200;
-      $mes = "OK";
-      header('HTTP/1.1 '.$cod.' '.$mes);
-      return json_encode(["cod" => $cod,
-                          "mes" => "eliminado correcto"]);
-    }else{
-      echo Error::eliminarPersona(); 
+    $datosJSON = json_decode(file_get_contents("php://input"),true);
+    $admin = ConexionBD::seleccionarUser($datosJSON["correo"]); 
+    if($admin->admin == 1 && $admin->password == $datosJSON["pass"]){
+      if(ConexionBD::borrarPersona($correo)){
+        $cod = 200;
+        $mes = "OK";
+        header('HTTP/1.1 '.$cod.' '.$mes);
+        return json_encode(["cod" => $cod,
+                            "mes" => "eliminado correcto"]);
+      }else{
+        echo Error::eliminarPersona(); 
+      }
     }
   }
 

@@ -37,4 +37,20 @@ class Error{
     return json_encode(["cod" => $cod,
                         "mes" => "fallo al eliminar"]);
   }
+
+  static function demasiadosArgumentos(){
+    $cod = 400;
+    $mes = "demasiados argumentos";
+    header('HTTP/1.1 '.$cod.' '.$mes);
+    return json_encode(["cod" => $cod,
+                        "mes" => $mes]);
+  }
+
+  static function noArgumentos(){
+    $cod = 400;
+    $mes = "argumento no soportado";
+    header('HTTP/1.1 '.$cod.' '.$mes);
+    return json_encode(["cod" => $cod,
+                        "mes" => $mes]);
+  }
 }
