@@ -12,6 +12,14 @@ class Error{
                         "mes" => $mes]); 
   }
 
+  static function usuarioIncorrecto(){
+    $cod = 400;
+    $mes = "Login incorrecto";
+    header('HTTP/1.1 '.$cod.' '.$mes);
+    return json_encode(["cod" => $cod,
+                        "mes" => $mes]); 
+  }
+
 
   static function updatePersona(){
     $cod = 400;

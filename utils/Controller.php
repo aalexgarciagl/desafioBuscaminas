@@ -17,21 +17,55 @@ use User\User;
 
 class Controller{
 
-  static function crearTableroDefault($user){
-    $tablero = array_fill(0,Constantes::SIZE_TABLERO_DEFAULT,0); 
-    $tableroOculto = array_fill(0,Constantes::SIZE_TABLERO_DEFAULT,"*");
-    for($i = 0; $i<Constantes::NUM_MINAS_DEFAULT; $i++){
-      $indiceAle = rand(0, count($tablero)-1);
-      if($tablero[$indiceAle] == 0){
-        $tablero[$indiceAle] = 1; 
-      }else{
-        $i--; 
-      }
-    }    
+  static function crearTableroDefault(){
+    $datosJSON = json_decode(file_get_contents("php://input"),true);
+    $user = ConexionBD::seleccionarUser($datosJSON["correo"]);
 
-    $partida = new Partida($user->idUsuario,implode("",$tableroOculto),$tablero,0); 
+    if($user->password == $datosJSON["pass"]){
+      $tablero = array_fill(0,Constantes::SIZE_TABLERO_DEFAULT,0); 
+      $tableroOculto = array_fill(0,Constantes::SIZE_TABLERO_DEFAULT,"*");
+      for($i = 0; $i<Constantes::NUM_MINAS_DEFAULT; $i++){
+        $indiceAle = rand(0, count($tablero)-1);
+        if($tablero[$indiceAle] == 0){
+          $tablero[$indiceAle] = 1; 
+        }else{
+          $i--; 
+        }
+      }
+    $partida = new Partida($user->idUsuario,implode("",$tableroOculto),implode("",$tablero),0); 
     ConexionBD::insertarPartida($partida); 
-  }  
+    echo json_encode(["Tamaño" => Constantes::SIZE_TABLERO_DEFAULT,
+                      "Minas" => Constantes::NUM_MINAS_DEFAULT,
+                      "Estado" => "Creado"]); 
+    }else{
+      Error::usuarioIncorrecto(); 
+    }
+  }
+  
+  static function crearTableroVariable($size,$minas){
+    $datosJSON = json_decode(file_get_contents("php://input"),true);
+    $user = ConexionBD::seleccionarUser($datosJSON["correo"]);
+
+    if($user->password == $datosJSON["pass"]){
+      $tablero = array_fill(0,$size,0); 
+      $tableroOculto = array_fill(0,$size,"*");
+      for($i = 0; $i<$minas; $i++){
+        $indiceAle = rand(0, count($tablero)-1);
+        if($tablero[$indiceAle] == 0){
+          $tablero[$indiceAle] = 1; 
+        }else{
+          $i--; 
+        }
+      }
+    $partida = new Partida($user->idUsuario,implode("",$tableroOculto),implode("",$tablero),0); 
+    ConexionBD::insertarPartida($partida); 
+    echo json_encode(["Tamaño" => $size,
+                      "Minas" => $minas,
+                      "Estado" => "Creado"]); 
+    }else{
+      Error::usuarioIncorrecto(); 
+    }
+  }
 
   static function registrarJugadorAdmin(){
     $datosJSON = json_decode(file_get_contents("php://input"),true);
