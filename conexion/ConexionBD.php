@@ -6,6 +6,7 @@ require_once (__DIR__."/../model/User.php");
 
 use Constantes\Constantes;
 use Exception;
+use Partida\Partida;
 use User\User; 
 
 
@@ -108,6 +109,51 @@ class ConexionBD{
       $e->getMessage();
     }
     ConexionBD::desconectar($conexion); 
+  }
+
+  static function seleccionarPartidasByIdJugador($user){
+    $partidas = []; 
+    $conexion = self::conectar(); 
+    $stmt = mysqli_prepare($conexion,Constantes::$seleccPartidasByIdJugador); 
+    $estadoPartida = 0; 
+    mysqli_stmt_bind_param($stmt,"ii",$user->idUsuario,$estadoPartida);  
+    mysqli_stmt_execute($stmt); 
+    $resultado = mysqli_stmt_get_result($stmt);
+    while( $fila = mysqli_fetch_array($resultado)){
+      $partidas[] = new Partida($fila["idPartida"],$fila["idPersona"],str_split($fila["tablaOculta"]),str_split($fila["tablaJugador"]),$fila["finalizada"]);
+    }     
+
+    ConexionBD::desconectar($conexion);
+    return $partidas;
+  }
+
+  static function seleccionarPartidaByIdTablero($idTablero){
+    $partida = 0; 
+    $conexion = self::conectar(); 
+    $stmt = mysqli_prepare($conexion,Constantes::$seleccPartidaByIdTablero);    
+    mysqli_stmt_bind_param($stmt,"i",$idTablero);  
+    mysqli_stmt_execute($stmt); 
+    $resultado = mysqli_stmt_get_result($stmt);
+    while( $fila = mysqli_fetch_array($resultado)){
+      $partida = new Partida($fila["idPartida"],$fila["idPersona"],str_split($fila["tablaOculta"]),str_split($fila["tablaJugador"]),$fila["finalizada"]);
+    }     
+
+    ConexionBD::desconectar($conexion);
+    return $partida;
+  }
+
+  static function updatePartida($idPartida,$tablaOculta,$estado){
+    $conexion = ConexionBD::conectar();
+    $stmt = mysqli_prepare($conexion, Constantes::$updatePartida);
+    mysqli_stmt_bind_param($stmt,"sii",$tablaOculta,$estado,$idPartida);
+
+    if (mysqli_stmt_execute($stmt)) {      
+      ConexionBD::desconectar($conexion);
+      return true;
+    } else {      
+      ConexionBD::desconectar($conexion);
+      return false;
+    }
   }
 
 }

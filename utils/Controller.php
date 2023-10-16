@@ -17,6 +17,69 @@ use User\User;
 
 class Controller{
 
+  static function destaparCasilla($idTablero){
+    $datosJSON = json_decode(file_get_contents("php://input"),true);
+    $user = ConexionBD::seleccionarUser($datosJSON["correo"]);
+    $minas = 0; 
+  
+    if($user->password == $datosJSON["pass"]){
+      
+      if($idTablero > 1){
+        $partida = ConexionBD::seleccionarPartidaByIdTablero($idTablero); 
+        $casillaDestapar = $datosJSON["casilla"]; 
+        $tableroJugar = $partida->tablaJugador; 
+        if($casillaDestapar > count($tableroJugar)){
+          Error::fueraRango(); 
+        }else{
+
+          if($partida -> tablaJugador[$casillaDestapar] == 0){
+            if($casillaDestapar-1 >= 0){
+              if($partida -> tablaJugador[$casillaDestapar-1] == 1){
+                $minas++; 
+              }
+            }
+            if($casillaDestapar+1 < count($partida -> tablaJugador)){
+              if($partida -> tablaJugador[$casillaDestapar+1] == 1){
+                $minas++; 
+              } 
+            }
+               
+            $partida -> tablaOculta[$casillaDestapar] = $minas; 
+            $minas = 0;         
+          }else{
+            //aplastas mina
+            $partida -> tablaOculta[$casillaDestapar] = 8; 
+            $strTablaJugador = implode("",$partida->tablaJugador); 
+            ConexionBD::updatePartida($partida->idPartida,$strTablaJugador,-1); 
+          }
+
+          $strTablaOculta = implode("",$partida->tablaOculta); 
+          ConexionBD::updatePartida($partida->idPartida,$strTablaOculta,0); 
+          echo json_encode($partida->tablaOculta); 
+           
+
+        }
+        
+      }else{
+        $partidas = ConexionBD::seleccionarPartidasByIdJugador($user); 
+       
+
+        for($i = 0; $i< count($partidas);$i++){
+          $partidas[$i]->tablaJugador = "secret"; 
+        }
+
+        if(count($partidas)>1){        
+          echo json_encode(["seleccione partida id" => $partidas]); 
+        }else{
+          echo json_encode(["Partidas" => "Solo 1"]); 
+        }
+      }
+
+    }else{
+      Error::usuarioIncorrecto(); 
+    }
+  }
+
   static function crearTableroDefault(){
     $datosJSON = json_decode(file_get_contents("php://input"),true);
     $user = ConexionBD::seleccionarUser($datosJSON["correo"]);
@@ -32,7 +95,7 @@ class Controller{
           $i--; 
         }
       }
-    $partida = new Partida($user->idUsuario,implode("",$tableroOculto),implode("",$tablero),0); 
+    $partida = new Partida(0,$user->idUsuario,implode("",$tableroOculto),implode("",$tablero),0); 
     ConexionBD::insertarPartida($partida); 
     echo json_encode(["Tamaño" => Constantes::SIZE_TABLERO_DEFAULT,
                       "Minas" => Constantes::NUM_MINAS_DEFAULT,
@@ -57,7 +120,7 @@ class Controller{
           $i--; 
         }
       }
-    $partida = new Partida($user->idUsuario,implode("",$tableroOculto),implode("",$tablero),0); 
+    $partida = new Partida(0,$user->idUsuario,implode("",$tableroOculto),implode("",$tablero),0); 
     ConexionBD::insertarPartida($partida); 
     echo json_encode(["Tamaño" => $size,
                       "Minas" => $minas,
