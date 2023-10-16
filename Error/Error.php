@@ -3,6 +3,14 @@
 
 class Error{
 
+  static function partidaFinalizada(){
+    $cod = 400;
+    $mes = "Partida finalizada";
+    header('HTTP/1.1 '.$cod.' '.$mes);
+    return json_encode(["cod" => $cod,
+                        "mes" => $mes]); 
+  }
+
   static function fueraRango(){
     $cod = 400;
     $mes = "Casilla fuera de rango";

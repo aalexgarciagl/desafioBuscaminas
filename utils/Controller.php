@@ -26,39 +26,42 @@ class Controller{
       
       if($idTablero > 1){
         $partida = ConexionBD::seleccionarPartidaByIdTablero($idTablero); 
-        $casillaDestapar = $datosJSON["casilla"]; 
-        $tableroJugar = $partida->tablaJugador; 
-        if($casillaDestapar > count($tableroJugar)){
-          Error::fueraRango(); 
-        }else{
-
-          if($partida -> tablaJugador[$casillaDestapar] == 0){
-            if($casillaDestapar-1 >= 0){
-              if($partida -> tablaJugador[$casillaDestapar-1] == 1){
-                $minas++; 
-              }
-            }
-            if($casillaDestapar+1 < count($partida -> tablaJugador)){
-              if($partida -> tablaJugador[$casillaDestapar+1] == 1){
-                $minas++; 
-              } 
-            }
-               
-            $partida -> tablaOculta[$casillaDestapar] = $minas; 
-            $minas = 0;         
+        if($partida != null){
+          $casillaDestapar = $datosJSON["casilla"]; 
+          $tableroJugar = $partida->tablaJugador; 
+          if($casillaDestapar > count($tableroJugar)){
+            Error::fueraRango(); 
           }else{
-            //aplastas mina
-            $partida -> tablaOculta[$casillaDestapar] = 8; 
-            $strTablaJugador = implode("",$partida->tablaJugador); 
-            ConexionBD::updatePartida($partida->idPartida,$strTablaJugador,-1); 
+
+            if($partida -> tablaJugador[$casillaDestapar] == 0){
+              if($casillaDestapar-1 >= 0){
+                if($partida -> tablaJugador[$casillaDestapar-1] == 1){
+                  $minas++; 
+                }
+              }
+              if($casillaDestapar+1 < count($partida -> tablaJugador)){
+                if($partida -> tablaJugador[$casillaDestapar+1] == 1){
+                  $minas++; 
+                } 
+              }
+                
+              $partida -> tablaOculta[$casillaDestapar] = $minas; 
+              $minas = 0;  
+              $strTablaOculta = implode("",$partida->tablaOculta); 
+              ConexionBD::updatePartida($partida->idPartida,$strTablaOculta,0); 
+              echo json_encode($partida->tablaOculta);        
+            }else{
+              //aplastas mina
+              $partida -> tablaOculta[$casillaDestapar] = 8; 
+              $strTablaJugador = implode("",$partida->tablaJugador); 
+              ConexionBD::updatePartida($partida->idPartida,$strTablaJugador,-1); 
+              echo json_encode("Has pisado una mina"); 
+            }
           }
-
-          $strTablaOculta = implode("",$partida->tablaOculta); 
-          ConexionBD::updatePartida($partida->idPartida,$strTablaOculta,0); 
-          echo json_encode($partida->tablaOculta); 
-           
-
+        }else{
+          Error::partidaFinalizada(); 
         }
+        
         
       }else{
         $partidas = ConexionBD::seleccionarPartidasByIdJugador($user); 

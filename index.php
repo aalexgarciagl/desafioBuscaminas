@@ -73,7 +73,7 @@ if($requestMethod == "GET"){
       Controller::crearTableroVariable($size,$minas);
 
     }elseif($argu[2] == "play" && count($argu) < 3){
-      Controller::destaparCasilla($argu[3]); 
+      Controller::destaparCasilla(null); 
     }elseif($argu[2] == "play" && count($argu) == 3){
       Controller::destaparCasilla($argu[3]);  
     }
