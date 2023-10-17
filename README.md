@@ -1,5 +1,9 @@
 # desafioBuscaminas
 
+Credenciales de admin: 
+  User: admin@gmail
+  Password: admin1234
+
 
 ### JSON: 
 ```json
