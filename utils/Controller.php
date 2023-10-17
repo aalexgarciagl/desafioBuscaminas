@@ -18,7 +18,20 @@ use User\User;
 class Controller{ 
 
   static function mostrarRainkgJugadores(){
-
+    $datosJSON = json_decode(file_get_contents("php://input"),true);
+    $user = ConexionBD::seleccionarUser($datosJSON["correo"]);
+    if($user->correo == $datosJSON["correo"] && $user->password == sha1($datosJSON["pass"])){
+      $ranking = ConexionBD::rankingJugadores(); 
+      $nombres = array();
+      $contador = 1; 
+      foreach ($ranking as $usuario) {
+          $nombres[] = $contador . ' -> ' . $usuario->nombre ;
+          $contador++;
+      }
+      echo json_encode(["Ranking" => $nombres]); 
+    }else{
+      echo Error::usuarioIncorrecto(); 
+    }
   }
 
   static function destaparCasilla($idTablero){

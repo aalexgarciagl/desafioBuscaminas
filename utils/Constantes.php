@@ -24,6 +24,7 @@ class Constantes{
   static $seleccPartidasByIdJugador = "SELECT * FROM partida WHERE idPersona = ? AND finalizada = ?"; 
   static $seleccPartidaByIdTablero = "SELECT * FROM partida WHERE idPartida = ? AND finalizada = 0"; 
   static $updatePartida = "UPDATE partida SET tablaOculta = ?,finalizada = ? WHERE idPartida = ?"; 
+  static $selectRanking = "SELECT * FROM usuarios u ORDER BY u.partidasGanadas DESC"; 
 
 
 }

@@ -196,4 +196,19 @@ class ConexionBD{
     }
   }
 
+  static function rankingJugadores(){
+    $ranking = []; 
+    $conexion = ConexionBD::conectar(); 
+    $stmt = mysqli_prepare($conexion, Constantes::$selectRanking);
+    mysqli_stmt_execute($stmt); 
+    $resultados = mysqli_stmt_get_result($stmt);
+
+    while( $fila = mysqli_fetch_array($resultados)){
+      $ranking[] = new User($fila["idUsuario"],$fila["nombre"],$fila["correo"],$fila["pass"],$fila["esAdmin"],$fila["partidasJugadas"],$fila["partidasGanadas"]);
+    }     
+
+    ConexionBD::desconectar($conexion);
+    return $ranking; 
+  }
+
 }
