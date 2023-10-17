@@ -17,6 +17,10 @@ use User\User;
 
 class Controller{ 
 
+  static function mostrarRainkgJugadores(){
+
+  }
+
   static function destaparCasilla($idTablero){
     $datosJSON = json_decode(file_get_contents("php://input"),true);
     $user = ConexionBD::seleccionarUser($datosJSON["correo"]);
@@ -59,7 +63,8 @@ class Controller{
               }
               if($minasForWin == $huecosSinVer){
                 $strTablaOculta = implode("",$partida->tablaJugador); 
-                ConexionBD::updatePartida($partida->idPartida,$strTablaOculta,1); 
+                ConexionBD::updatePartida($partida->idPartida,$strTablaOculta,1);
+                ConexionBD::partidaGanada($user);                  
                 echo json_encode("Partida ganada"); 
               }else{
                 $partida -> tablaOculta[$casillaDestapar] = $minas; 
@@ -121,6 +126,7 @@ class Controller{
       }
     $partida = new Partida(0,$user->idUsuario,implode("",$tableroOculto),implode("",$tablero),0); 
     ConexionBD::insertarPartida($partida); 
+    ConexionBD::partidaJugada($user); 
     echo json_encode(["Tamaño" => Constantes::SIZE_TABLERO_DEFAULT,
                       "Minas" => Constantes::NUM_MINAS_DEFAULT,
                       "Estado" => "Creado"]); 

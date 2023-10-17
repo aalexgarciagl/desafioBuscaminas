@@ -162,4 +162,38 @@ class ConexionBD{
     }
   }
 
+  static function partidaJugada($user){
+    $query = "UPDATE usuarios set partidasJugadas = ? where correo = ?";
+    $user = self::seleccionarUser($user->correo); 
+    $user->partidasJugadas++;       
+    $conexion = ConexionBD::conectar();
+    $stmt = mysqli_prepare($conexion, $query);
+    mysqli_stmt_bind_param($stmt,"is",$user->partidasJugadas,$user->correo);
+
+    if (mysqli_stmt_execute($stmt)) {      
+      ConexionBD::desconectar($conexion);
+      return true;
+    } else {      
+      ConexionBD::desconectar($conexion);
+      return false;
+    }
+  }
+
+  static function partidaGanada($user){
+    $query = "UPDATE usuarios set partidasGanadas = ? where correo = ?";
+    $user = self::seleccionarUser($user->correo); 
+    $user->partidasGanadas++;       
+    $conexion = ConexionBD::conectar();
+    $stmt = mysqli_prepare($conexion, $query);
+    mysqli_stmt_bind_param($stmt,"is",$user->partidasGanadas,$user->correo);
+
+    if (mysqli_stmt_execute($stmt)) {      
+      ConexionBD::desconectar($conexion);
+      return true;
+    } else {      
+      ConexionBD::desconectar($conexion);
+      return false;
+    }
+  }
+
 }

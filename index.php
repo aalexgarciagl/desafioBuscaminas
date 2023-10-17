@@ -39,7 +39,9 @@ if($requestMethod == "GET"){
   //USER. 
   elseif($argu[1] == "user"){
     
-    
+    if(count($argu) == 2 && $argu[2] == "ranking"){
+      echo Controller::mostrarRainkgJugadores();
+    }
   
     
 
@@ -76,7 +78,7 @@ if($requestMethod == "GET"){
       Controller::destaparCasilla(null); 
     }elseif($argu[2] == "play" && count($argu) == 3){
       Controller::destaparCasilla($argu[3]);  
-    }  
+    }   
     
   }
 

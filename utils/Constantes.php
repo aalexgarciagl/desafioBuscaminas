@@ -19,6 +19,7 @@ class Constantes{
   static $updatePersona = "UPDATE usuarios SET nombre = ?, correo = ?, pass = ?, esAdmin = ? WHERE correo = ?";
   static $borrarPersona = "DELETE FROM usuarios WHERE correo = ?";
 
+
   static $insertarPartida = "INSERT INTO partida VALUES (DEFAULT,?,?,?,?)"; 
   static $seleccPartidasByIdJugador = "SELECT * FROM partida WHERE idPersona = ? AND finalizada = ?"; 
   static $seleccPartidaByIdTablero = "SELECT * FROM partida WHERE idPartida = ? AND finalizada = 0"; 
