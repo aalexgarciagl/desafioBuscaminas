@@ -38,11 +38,9 @@ class Controller{
     $user = ConexionBD::seleccionarUser($datosJSON["correo"]);
     if($user->correo == $datosJSON["correo"] && $user->password == sha1($datosJSON["pass"])){
       $ranking = ConexionBD::rankingJugadores(); 
-      $nombres = array();
-      $contador = 1; 
+      $nombres = array();      
       foreach ($ranking as $usuario) {
-          $nombres[] = $contador . ' -> ' . $usuario->nombre ;
-          $contador++;
+          $nombres[] = $usuario->nombre . ', victorias: ' . $usuario->partidasGanadas ;          
       }
       echo json_encode(["Ranking" => $nombres]); 
     }else{
