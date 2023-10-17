@@ -78,7 +78,9 @@ if($requestMethod == "GET"){
       Controller::destaparCasilla(null); 
     }elseif($argu[2] == "play" && count($argu) == 3){
       Controller::destaparCasilla($argu[3]);  
-    }   
+    }elseif($argu[2] == "play" && count($argu) == 4 && $argu[4] == "ff"){
+      Controller::rendirse($argu[3]);  
+    }    
     
   }
 

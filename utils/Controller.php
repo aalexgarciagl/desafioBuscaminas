@@ -17,6 +17,22 @@ use User\User;
 
 class Controller{ 
 
+  static function rendirse($idPartida){
+    $datosJSON = json_decode(file_get_contents("php://input"),true);
+    $user = ConexionBD::seleccionarUser($datosJSON["correo"]);
+    
+    if($user->correo == $datosJSON["correo"] && $user->password == sha1($datosJSON["pass"])){
+      $partida = ConexionBD::seleccionarPartidaByIdTablero($idPartida); 
+      $strTablaOculta = implode("",$partida->tablaJugador); 
+      ConexionBD::updatePartida($partida->idPartida,$strTablaOculta,-1);
+      echo json_encode(["partida" => $partida->idPartida,
+                        "estado" => "perdida"]); 
+    }else{
+      echo Error::usuarioIncorrecto(); 
+    }
+  
+  }
+
   static function mostrarRainkgJugadores(){
     $datosJSON = json_decode(file_get_contents("php://input"),true);
     $user = ConexionBD::seleccionarUser($datosJSON["correo"]);
