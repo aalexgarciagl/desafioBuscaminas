@@ -1,8 +1,5 @@
 # desafioBuscaminas
 
-
-
-
 ### JSON: 
 ```json
 {
@@ -16,7 +13,7 @@
 }
 ```
 
-###Credenciales de admin: 
+### Credenciales de admin: 
   **User:** admin@gmail
   **Password:** admin1234
 
