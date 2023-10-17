@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-10-2023 a las 11:02:50
+-- Tiempo de generación: 17-10-2023 a las 10:56:42
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -52,20 +52,6 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `usuarios`
---
-
-INSERT INTO `usuarios` (`idUsuario`, `nombre`, `correo`, `pass`, `esAdmin`, `partidasJugadas`, `partidasGanadas`) VALUES
-(1, 'Alejandro', 'alejandro', '1234', 1, 0, 0),
-(2, 'Laura', 'laura', '1234', 0, 0, 0),
-(3, 'Charlex', 'charlex', '1234', 0, 0, 0),
-(4, 'Fornell', 'fornell', '1234', 0, 0, 0),
-(5, 'Gonzalo', 'gonzalo', '1234', 0, 0, 0),
-(6, 'Juanra', 'juanra', '1234', 0, 0, 0),
-(7, 'Chechu', 'chechu', '1234', 0, 0, 0),
-(8, 'Guille', 'guille', '1234', 0, 0, 0);
-
---
 -- Índices para tablas volcadas
 --
 
@@ -89,13 +75,13 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `partida`
 --
 ALTER TABLE `partida`
-  MODIFY `idPartida` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idPartida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

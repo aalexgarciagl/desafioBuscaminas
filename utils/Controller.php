@@ -15,17 +15,24 @@ use User\User;
  
 
 
-class Controller{
+class Controller{ 
 
   static function destaparCasilla($idTablero){
     $datosJSON = json_decode(file_get_contents("php://input"),true);
     $user = ConexionBD::seleccionarUser($datosJSON["correo"]);
     $minas = 0; 
   
-    if($user->password == $datosJSON["pass"]){
+    if($user->password == sha1($datosJSON["pass"])){
       
       if($idTablero > 1){
         $partida = ConexionBD::seleccionarPartidaByIdTablero($idTablero); 
+        $minasForWin = 0; 
+        $huecosSinVer = 0;         
+        for($i = 0;$i<count($partida->tablaJugador);$i++)  {
+          if($partida->tablaJugador[$i] == 1){
+            $minasForWin++; 
+          }
+        }      
         if($partida != null){
           $casillaDestapar = $datosJSON["casilla"]; 
           $tableroJugar = $partida->tablaJugador; 
@@ -44,12 +51,26 @@ class Controller{
                   $minas++; 
                 } 
               }
-                
-              $partida -> tablaOculta[$casillaDestapar] = $minas; 
-              $minas = 0;  
-              $strTablaOculta = implode("",$partida->tablaOculta); 
-              ConexionBD::updatePartida($partida->idPartida,$strTablaOculta,0); 
-              echo json_encode($partida->tablaOculta);        
+              
+              for ($i=0; $i < count($partida->tablaJugador); $i++) { 
+                if($partida->tablaOculta[$i] == "*"){
+                  $huecosSinVer++; 
+                }
+              }
+              if($minasForWin == $huecosSinVer){
+                $strTablaOculta = implode("",$partida->tablaJugador); 
+                ConexionBD::updatePartida($partida->idPartida,$strTablaOculta,1); 
+                echo json_encode("Partida ganada"); 
+              }else{
+                $partida -> tablaOculta[$casillaDestapar] = $minas; 
+                $minas = 0;  
+                $huecosSinVer = 0; 
+                $strTablaOculta = implode("",$partida->tablaOculta); 
+                ConexionBD::updatePartida($partida->idPartida,$strTablaOculta,0); 
+                echo json_encode($partida->tablaOculta); 
+              }
+
+                     
             }else{
               //aplastas mina
               $partida -> tablaOculta[$casillaDestapar] = 8; 
@@ -59,7 +80,7 @@ class Controller{
             }
           }
         }else{
-          Error::partidaFinalizada(); 
+          echo Error::partidaFinalizada(); 
         }
         
         
@@ -71,10 +92,10 @@ class Controller{
           $partidas[$i]->tablaJugador = "secret"; 
         }
 
-        if(count($partidas)>1){        
+        if(count($partidas)>=1){        
           echo json_encode(["seleccione partida id" => $partidas]); 
         }else{
-          echo json_encode(["Partidas" => "Solo 1"]); 
+          echo json_encode(["Crear partida" => "Sin partidas disponibles"]); 
         }
       }
 
@@ -87,7 +108,7 @@ class Controller{
     $datosJSON = json_decode(file_get_contents("php://input"),true);
     $user = ConexionBD::seleccionarUser($datosJSON["correo"]);
 
-    if($user->password == $datosJSON["pass"]){
+    if($user->password == sha1($datosJSON["pass"])){
       $tablero = array_fill(0,Constantes::SIZE_TABLERO_DEFAULT,0); 
       $tableroOculto = array_fill(0,Constantes::SIZE_TABLERO_DEFAULT,"*");
       for($i = 0; $i<Constantes::NUM_MINAS_DEFAULT; $i++){
@@ -112,7 +133,7 @@ class Controller{
     $datosJSON = json_decode(file_get_contents("php://input"),true);
     $user = ConexionBD::seleccionarUser($datosJSON["correo"]);
 
-    if($user->password == $datosJSON["pass"]){
+    if($user->password == sha1($datosJSON["pass"])){
       $tablero = array_fill(0,$size,0); 
       $tableroOculto = array_fill(0,$size,"*");
       for($i = 0; $i<$minas; $i++){
@@ -133,10 +154,11 @@ class Controller{
     }
   }
 
+
   static function registrarJugadorAdmin(){
     $datosJSON = json_decode(file_get_contents("php://input"),true);
     $user = ConexionBD::seleccionarUser($datosJSON["correo"]);     
-    if($user->admin == 1 && $user->password == $datosJSON["pass"]){
+    if($user->admin == 1 && $user->password == sha1($datosJSON["pass"])){
       $cod = 200;
       $mes = "OK"; 
       header('HTTP/1.1 '.$cod.' '.$mes);
@@ -164,8 +186,9 @@ class Controller{
     $user = ConexionBD::seleccionarUser($correo); 
     $datosJSON = json_decode(file_get_contents("php://input"),true);
     $admin = ConexionBD::seleccionarUser($datosJSON["correo"]); 
+    $cambioPass = true; 
 
-    if($admin->admin == 1 && $admin->password == $datosJSON["pass"]){
+    if($admin->admin == 1 && $admin->password == sha1($datosJSON["pass"])){
       if($datosJSON["newUserName"] == ""){
         $datosJSON["newUserName"] = $user->nombre; 
       }
@@ -174,13 +197,14 @@ class Controller{
       }
       if($datosJSON["newUserPass"] == ""){
         $datosJSON["newUserPass"] = $user->password; 
+        $cambioPass = false; 
       }
       if($datosJSON["newEsAdmin"] == ""){
         $datosJSON["newEsAdmin"] = $user->admin; 
       }
       
   
-      if(ConexionBD::updatePersona($correo,$datosJSON)){
+      if(ConexionBD::updatePersona($correo,$datosJSON,$cambioPass)){
         return json_encode(["datos antiguos" => $user,
                             "actualizacion" => "correcto"]); 
       }else{
@@ -195,7 +219,7 @@ class Controller{
   static function borrarUsuario($correo){
     $datosJSON = json_decode(file_get_contents("php://input"),true);
     $admin = ConexionBD::seleccionarUser($datosJSON["correo"]); 
-    if($admin->admin == 1 && $admin->password == $datosJSON["pass"]){
+    if($admin->admin == 1 && $admin->password == sha1($datosJSON["pass"])){
       if(ConexionBD::borrarPersona($correo)){
         $cod = 200;
         $mes = "OK";
@@ -209,6 +233,3 @@ class Controller{
   }
 
 }
-
-  
-

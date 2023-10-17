@@ -60,6 +60,7 @@ class ConexionBD{
   static function insertarPersona($persona){
     $conexion = self::conectar(); 
     $stmt = mysqli_prepare($conexion,Constantes::$insertarPersona); 
+    $persona->password = sha1($persona->password); 
     mysqli_stmt_bind_param($stmt,"sssi",$persona->nombre,$persona->correo,$persona->password,$persona->admin); 
 
     try{
@@ -70,10 +71,15 @@ class ConexionBD{
     ConexionBD::desconectar($conexion); 
   }
 
-  static function updatePersona($correo,$nuevosDatos){
+  static function updatePersona($correo,$nuevosDatos,$cambioPass){
     $conexion = ConexionBD::conectar();
     $stmt = mysqli_prepare($conexion, Constantes::$updatePersona);
-    mysqli_stmt_bind_param($stmt, "sssis",$nuevosDatos["newUserName"],$nuevosDatos["newUserCorreo"],$nuevosDatos["newUserPass"], $nuevosDatos["newEsAdmin"], $correo);
+    if($cambioPass){
+      $passwordSha1 = sha1($nuevosDatos["newUserPass"]);
+    }else{
+      $passwordSha1 = $nuevosDatos["newUserPass"];
+    }
+    mysqli_stmt_bind_param($stmt, "sssis",$nuevosDatos["newUserName"],$nuevosDatos["newUserCorreo"],$passwordSha1, $nuevosDatos["newEsAdmin"], $correo);
 
     if (mysqli_stmt_execute($stmt)) {      
       ConexionBD::desconectar($conexion);

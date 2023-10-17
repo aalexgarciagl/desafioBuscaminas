@@ -76,14 +76,8 @@ if($requestMethod == "GET"){
       Controller::destaparCasilla(null); 
     }elseif($argu[2] == "play" && count($argu) == 3){
       Controller::destaparCasilla($argu[3]);  
-    }
-  
-    /**
-     * USER: 
-     *  Se le mostrara las partidas que tenga activas, en caso de no tener una partida activa se le pedira que cree una. Si este tiene alguna partida abierta se le mostrara todas las disponibles y se le pedira que seleccione una de ellas. Una vez seleccionada podremos jugar. 
-     * 
-     *  Le indicaremos en el JSON la casilla que queremos destapar
-    */
+    }  
+    
   }
 
 }elseif($requestMethod == "PUT"){  
