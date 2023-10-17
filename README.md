@@ -1,8 +1,6 @@
 # desafioBuscaminas
 
-###Credenciales de admin: 
-  **User:** admin@gmail
-  **Password:** admin1234
+
 
 
 ### JSON: 
@@ -17,6 +15,10 @@
   "casilla": 1
 }
 ```
+
+###Credenciales de admin: 
+  **User:** admin@gmail
+  **Password:** admin1234
 
 
 ## Funciones disponibles: 
