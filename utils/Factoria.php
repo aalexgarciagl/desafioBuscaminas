@@ -1,4 +1,5 @@
 <?php namespace Factoria;
+      use Constantes\Constantes;
 
 require_once (__DIR__."/../phpmailer/src/PHPMailer.php");
 require_once (__DIR__."/../phpmailer/src/SMTP.php");
@@ -36,8 +37,9 @@ class Factoria{
       $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;   
       $mail->Port       = 465;
 
-      $mail->setFrom('auxiliardaw2@gmail.com', 'Admin admin');
-      $mail->addAddress("alejandro.garcia.2002@gmail.com", $user->nombre);
+      $mail->setFrom('auxiliardaw2@gmail.com', 'Admin');
+      //Cambiar el email al que quieras recibir la nueva contraseña. 
+      $mail->addAddress(Constantes::EMAIL, $user->nombre);
       $mail->Subject = $asunto; 
       $mail->Body = $cuerpo; 
 

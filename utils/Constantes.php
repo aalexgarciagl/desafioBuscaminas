@@ -13,6 +13,8 @@ class Constantes{
   const SIZE_TABLERO_DEFAULT = 10; 
   const NUM_MINAS_DEFAULT = 3; 
 
+  const EMAIL = "tuemail@gmail.com"; 
+
   static $selecUser = "SELECT * FROM usuarios WHERE correo = ?"; 
   static $insertarPersona = "INSERT INTO usuarios VALUES (DEFAULT,?,?,?,?,0,0)"; 
   static $seleccAllPersonas = "SELECT * FROM usuarios"; 
