@@ -250,8 +250,14 @@ class Controller{
   }
 
   static function mostrarUsuario($correo){
-    $usuario = ConexionBD::seleccionarUser($correo); 
-    return json_encode($usuario); 
+    $usuario = ConexionBD::seleccionarUser($correo);     
+    if($usuario != null){
+      return json_encode($usuario);
+    }else{
+      return Error::usuarioNoExiste(); 
+    }
+    
+     
   }
 
   static function modificarDatos($correo){

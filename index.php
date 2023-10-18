@@ -43,8 +43,13 @@ if($requestMethod == "GET"){
     
     if(count($argu) == 2 && $argu[2] == "ranking"){
       echo Controller::mostrarRainkgJugadores();
-    }
-  
+    }elseif(count($argu) == 1){
+      echo Error::noArgumentos();
+    }elseif(count($argu) > 2){
+      echo Error::demasiadosArgumentos(); 
+    }else{
+      echo Error::noArgumentos(); 
+    }  
     
 
   }else{
@@ -72,20 +77,32 @@ if($requestMethod == "GET"){
 
     }elseif(count($argu) >= 2 && $argu[2] != "play" && $argu[2] != "createUser"){
       //Crea tablero con tamaño y minas dados
-      $size = $argu[2];
-      $minas = $argu[3];
-      Controller::crearTableroVariable($size,$minas);
-    }elseif(count($argu) == 2 && $argu[2] = "createUser"){
+      if(is_numeric($argu[2]) && is_numeric($argu[3])){
+        $size = $argu[2];
+        $minas = $argu[3];
+        Controller::crearTableroVariable($size,$minas);
+      }else{
+        echo Error::noArgumentos(); 
+      }      
+    }elseif(count($argu) == 2 && $argu[2] == "createUser"){
       echo Controller::nuevoUsuario(); 
 
     }elseif($argu[2] == "play" && count($argu) < 3){
       Controller::destaparCasilla(null); 
     }elseif($argu[2] == "play" && count($argu) == 3){
-      Controller::destaparCasilla($argu[3]);  
+      if(is_numeric($argu[3])){
+        Controller::destaparCasilla($argu[3]);
+      }else{
+        echo Error::noArgumentos(); 
+      }  
     }elseif($argu[2] == "play" && count($argu) == 4 && $argu[4] == "ff"){
       Controller::rendirse($argu[3]);  
+    }else{
+      Echo Error::noArgumentos(); 
     }    
     
+  }else{
+    echo Error::noArgumentos(); 
   }
 
 }elseif($requestMethod == "PUT"){  
@@ -109,7 +126,13 @@ if($requestMethod == "GET"){
 
     if(count($argu) == 2 && $argu[2] == "newpass"){
       Controller::cambiarPassUser(); 
+    }else{
+      echo Error::noArgumentos(); 
     }
+  }
+  
+  else{
+    echo Error::noArgumentos(); 
   }
   
 }elseif($requestMethod == "DELETE"){
@@ -125,7 +148,7 @@ if($requestMethod == "GET"){
     }
   }
 
-  elseif($argu[1] == "user"){
-
+  else{
+    echo Error::noArgumentos(); 
   }
 }
