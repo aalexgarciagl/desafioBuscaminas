@@ -34,27 +34,15 @@ class Controller{
     $datosJSON = json_decode(file_get_contents("php://input"),true);
     $user = ConexionBD::seleccionarUser($datosJSON["correo"]);
     
-    $newPassword = self::generarContrasenaAleatoria(); 
+    $newPassword = Factoria::generarContrasenaAleatoria(); 
     if(Factoria::sendMail($user,"Nueva pass",$newPassword)){
       $user->password = $newPassword; 
       echo Factoria::updatePasswordUser($user); 
-    } 
-    
+    }  
 
   }
 
-  static function generarContrasenaAleatoria() {
-    $caracteresPermitidos = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    $longitud = 8;
-    $contrasena = '';
-    
-    for ($i = 0; $i < $longitud; $i++) {
-        $indiceAleatorio = mt_rand(0, strlen($caracteresPermitidos) - 1);
-        $contrasena .= $caracteresPermitidos[$indiceAleatorio];
-    }
-    
-    return $contrasena;
-}
+  
 
   static function rendirse($idPartida){
     $datosJSON = json_decode(file_get_contents("php://input"),true);
@@ -171,7 +159,7 @@ class Controller{
       }
 
     }else{
-      Error::usuarioIncorrecto(); 
+      echo Error::usuarioIncorrecto(); 
     }
   }
 
@@ -190,12 +178,12 @@ class Controller{
           $i--; 
         }
       }
-    $partida = new Partida(0,$user->idUsuario,implode("",$tableroOculto),implode("",$tablero),0); 
-    ConexionBD::insertarPartida($partida); 
-    ConexionBD::partidaJugada($user); 
-    echo json_encode(["Tamaño" => Constantes::SIZE_TABLERO_DEFAULT,
-                      "Minas" => Constantes::NUM_MINAS_DEFAULT,
-                      "Estado" => "Creado"]); 
+      $partida = new Partida(0,$user->idUsuario,implode("",$tableroOculto),implode("",$tablero),0); 
+      ConexionBD::insertarPartida($partida); 
+      ConexionBD::partidaJugada($user); 
+      echo json_encode(["Tamaño" => Constantes::SIZE_TABLERO_DEFAULT,
+                        "Minas" => Constantes::NUM_MINAS_DEFAULT,
+                        "Estado" => "Creado"]); 
     }else{
       Error::usuarioIncorrecto(); 
     }
@@ -216,11 +204,11 @@ class Controller{
           $i--; 
         }
       }
-    $partida = new Partida(0,$user->idUsuario,implode("",$tableroOculto),implode("",$tablero),0); 
-    ConexionBD::insertarPartida($partida); 
-    echo json_encode(["Tamaño" => $size,
-                      "Minas" => $minas,
-                      "Estado" => "Creado"]); 
+      $partida = new Partida(0,$user->idUsuario,implode("",$tableroOculto),implode("",$tablero),0); 
+      ConexionBD::insertarPartida($partida); 
+      echo json_encode(["Tamaño" => $size,
+                        "Minas" => $minas,
+                        "Estado" => "Creado"]); 
     }else{
       Error::usuarioIncorrecto(); 
     }
@@ -245,19 +233,30 @@ class Controller{
   }
 
   static function mostrarUsuarios(){
-    $personas = ConexionBD::seleccionarPersonas(); 
-    return json_encode($personas); 
+    $datosJSON = json_decode(file_get_contents("php://input"),true);
+    $admin = ConexionBD::seleccionarUser($datosJSON["correo"]); 
+    if($admin->admin == 1 && $admin->password == sha1($datosJSON["pass"])){
+      $personas = ConexionBD::seleccionarPersonas(); 
+      return json_encode($personas);  
+    }else{
+      return Error::permisosAdminDenegados(); 
+    }
+    
   }
 
   static function mostrarUsuario($correo){
-    $usuario = ConexionBD::seleccionarUser($correo);     
-    if($usuario != null){
-      return json_encode($usuario);
+    $datosJSON = json_decode(file_get_contents("php://input"),true);
+    $admin = ConexionBD::seleccionarUser($datosJSON["correo"]); 
+    if($admin->admin == 1 && $admin->password == sha1($datosJSON["pass"])){
+      $usuario = ConexionBD::seleccionarUser($correo);     
+      if($usuario != null){
+        return json_encode($usuario);
+      }else{
+        return Error::usuarioNoExiste(); 
+      }
     }else{
-      return Error::usuarioNoExiste(); 
-    }
-    
-     
+      return Error::permisosAdminDenegados(); 
+    }    
   }
 
   static function modificarDatos($correo){
@@ -289,7 +288,7 @@ class Controller{
         echo Error::updatePersona(); 
       }
     }else{
-      echo Error::credencialesInvalidos();  
+      echo Error::permisosAdminDenegados();  
     }
     
   }
@@ -307,6 +306,8 @@ class Controller{
       }else{
         echo Error::eliminarPersona(); 
       }
+    }else{
+      echo Error::permisosAdminDenegados(); 
     }
   }
 

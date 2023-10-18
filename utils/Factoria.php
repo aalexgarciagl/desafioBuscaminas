@@ -11,6 +11,18 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class Factoria{
 
+  static function generarContrasenaAleatoria() {
+    $caracteresPermitidos = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    $longitud = 8;
+    $contrasena = '';
+    
+    for ($i = 0; $i < $longitud; $i++) {
+        $indiceAleatorio = mt_rand(0, strlen($caracteresPermitidos) - 1);
+        $contrasena .= $caracteresPermitidos[$indiceAleatorio];
+    }
+    
+    return $contrasena;
+  }
 
   static function sendMail($user,$asunto,$cuerpo){
     $correcto = false; 
