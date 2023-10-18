@@ -1,6 +1,11 @@
-# desafioBuscaminas
+# Desafio Buscaminas Desarrollo Web Entorno Servidor.
+### Alejandro García Gil.
 
-### JSON: 
+## Credenciales de admin: 
+  **User:** admin@gmail
+  **Password:** admin1234
+
+## JSON: 
 ```json
 {
   "correo": "alejandro@gmail",
@@ -12,23 +17,20 @@
   "casilla": 1
 }
 ```
+Los campos **"Correo"** y **"pass"** sirven para introducir los credenciales de inicio de sesión.
+Lo campos **"newUserName"**, **"newUserCorreo"**,**"newUserPass"** y **"newEsAdmin"** sirven para modificar los datos de alguna persona o para insertar nuevas personas a la base de datos.
+El campo **"casilla"** sirve para seleccionar la casilla que queremos marcar a la hora de jugar. 
 
-### Credenciales de admin: 
-  **User:** admin@gmail
-  **Password:** admin1234
 
-
-## Funciones disponibles: 
-
-### GET:
-  **/admin:** Muestra todos los usuarios de la base de datos.
-  **/admin/correo:** Muestra los datos del usuario con el correo correspondiente
-
-### POST: 
-  **/admin:** Introduce en la base de datos al usuario que le pasemos a traves del JSON. 
-
-### PUT: 
-  **/admin/correo:** Actualiza los datos del usuario con el correo de la URL, los nuevos datos los obtiene del JSON. 
-
-### DELETE: 
-  **/admin/correo:** Elimina de la base de datos el usuario con el correo correspondiente de la URL. 
+## Funciones admin
+Para que las siguientes rutas funcionen, el usuario que le pasemos por los campos del JSON **"correo"** y **"pass"** debera tener permisos de adminisitrador.
+### Listar usuarios: 
+**GET/localhost/admin**
+### Listar usuario por correo: 
+**GET/localhost/admin/{correo}**
+### Modificar usuario: 
+**PUT/localhost/admin/{correo}** + **JSON**
+### Eliminar usuario: 
+**DELETE/localhost/admin/{correo}**
+### Registrar usuario: 
+**POST/localhost/admin/** + **JSON**
