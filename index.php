@@ -126,7 +126,13 @@ if($requestMethod == "GET"){
 
     if(count($argu) == 2 && $argu[2] == "newpass"){
       Controller::cambiarPassUser(); 
+    }else{
+      echo Error::noArgumentos(); 
     }
+  }
+  
+  else{
+    echo Error::noArgumentos(); 
   }
   
 }elseif($requestMethod == "DELETE"){
