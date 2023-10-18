@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-10-2023 a las 11:49:03
--- Versión del servidor: 10.4.17-MariaDB
--- Versión de PHP: 8.0.0
+-- Tiempo de generación: 17-10-2023 a las 13:32:49
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,7 +33,13 @@ CREATE TABLE `partida` (
   `tablaOculta` varchar(255) DEFAULT NULL,
   `tablaJugador` varchar(255) DEFAULT NULL,
   `finalizada` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `partida`
+--
+
+
 
 -- --------------------------------------------------------
 
@@ -49,25 +55,23 @@ CREATE TABLE `usuarios` (
   `esAdmin` int(11) DEFAULT 0,
   `partidasJugadas` int(11) DEFAULT 0,
   `partidasGanadas` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`idUsuario`, `nombre`, `correo`, `pass`, `esAdmin`, `partidasJugadas`, `partidasGanadas`) VALUES
-(1, 'Alejandro', 'alejandro', '1234', 1, 0, 0),
-(2, 'Laura', 'laura', '1234', 0, 0, 0),
-(3, 'Charlex', 'charlex', '1234', 0, 0, 0),
-(4, 'Fornell', 'fornell', '1234', 0, 0, 0),
-(5, 'Gonzalo', 'gonzalo', '1234', 0, 0, 0),
-(6, 'Juanra', 'juanra', '1234', 0, 0, 0),
-(7, 'Chechu', 'chechu', '1234', 0, 0, 0),
-(8, 'Guille', 'guille', '1234', 0, 0, 0);
+
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `partida`
+--
+ALTER TABLE `partida`
+  ADD PRIMARY KEY (`idPartida`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -80,12 +84,23 @@ ALTER TABLE `usuarios`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `partida`
+--
+ALTER TABLE `partida`
+  MODIFY `idPartida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
+
+--
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+insert into usuarios values (DEFAULT,"admin","admin@gmail","7b902e6ff1db9f560443f2048974fd7d386975b0",1,DEFAULT,DEFAULT); 
+
+/*7b902e6ff1db9f560443f2048974fd7d386975b0 == admin1234*/ 

@@ -8,8 +8,8 @@ class Partida{
   public $tablaJugador;
   public $finalizada;
 
-	public function __construct($idPersona, $tablaOculta, $tablaJugador, $finalizada) {
-
+	public function __construct($idPartida,$idPersona, $tablaOculta, $tablaJugador, $finalizada) {
+    $this->idPartida = $idPartida; 
 		$this->idPersona = $idPersona;
 		$this->tablaOculta = $tablaOculta;
 		$this->tablaJugador = $tablaJugador;
@@ -20,4 +20,6 @@ class Partida{
     */
 		$this->finalizada = $finalizada;
 	}
+
+	
 }
