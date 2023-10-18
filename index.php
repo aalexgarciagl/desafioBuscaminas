@@ -103,6 +103,9 @@ if($requestMethod == "GET"){
   //USER: 
   elseif($argu[1] == "user"){
 
+    if(count($argu) == 2 && $argu[2] == "newpass"){
+      Controller::cambiarPassUser(); 
+    }
   }
   
 }elseif($requestMethod == "DELETE"){

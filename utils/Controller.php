@@ -10,6 +10,7 @@ require_once (__DIR__."/../model/Partida.php");
 
 use ConexionBD\ConexionBD;
 use Error\Error;
+use Factoria\Factoria;
 use Partida\Partida;
 use User\User;  
  
@@ -17,14 +18,41 @@ use User\User;
 
 class Controller{ 
 
+  static function cambiarPassUser(){
+    $datosJSON = json_decode(file_get_contents("php://input"),true);
+    $user = ConexionBD::seleccionarUser($datosJSON["correo"]);
+    if($user->correo == $datosJSON["correo"] && $user->password == sha1($datosJSON["pass"])){
+      $newPassword = self::generarContrasenaAleatoria(); 
+      if(Factoria::sendMail($user,"Nueva Contraseña",$newPassword)){
+        
+      } 
+    }else{
+      echo Error::usuarioIncorrecto(); 
+    }
+
+  }
+
+  static function generarContrasenaAleatoria() {
+    $caracteresPermitidos = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    $longitud = 8;
+    $contrasena = '';
+    
+    for ($i = 0; $i < $longitud; $i++) {
+        $indiceAleatorio = mt_rand(0, strlen($caracteresPermitidos) - 1);
+        $contrasena .= $caracteresPermitidos[$indiceAleatorio];
+    }
+    
+    return $contrasena;
+}
+
   static function rendirse($idPartida){
     $datosJSON = json_decode(file_get_contents("php://input"),true);
     $user = ConexionBD::seleccionarUser($datosJSON["correo"]);
     
     if($user->correo == $datosJSON["correo"] && $user->password == sha1($datosJSON["pass"])){
-      $partida = ConexionBD::seleccionarPartidaByIdTablero($idPartida); 
-      $strTablaOculta = implode("",$partida->tablaJugador); 
-      ConexionBD::updatePartida($partida->idPartida,$strTablaOculta,-1);
+    $partida = ConexionBD::seleccionarPartidaByIdTablero($idPartida); 
+    $strTablaOculta = implode("",$partida->tablaJugador); 
+    ConexionBD::updatePartida($partida->idPartida,$strTablaOculta,-1);
       echo json_encode(["partida" => $partida->idPartida,
                         "estado" => "perdida"]); 
     }else{
@@ -34,9 +62,9 @@ class Controller{
   }
 
   static function mostrarRainkgJugadores(){
-    $datosJSON = json_decode(file_get_contents("php://input"),true);
-    $user = ConexionBD::seleccionarUser($datosJSON["correo"]);
-    if($user->correo == $datosJSON["correo"] && $user->password == sha1($datosJSON["pass"])){
+  $datosJSON = json_decode(file_get_contents("php://input"),true);
+  $user = ConexionBD::seleccionarUser($datosJSON["correo"]);
+  if($user->correo == $datosJSON["correo"] && $user->password == sha1($datosJSON["pass"])){
       $ranking = ConexionBD::rankingJugadores(); 
       $nombres = array();      
       foreach ($ranking as $usuario) {
