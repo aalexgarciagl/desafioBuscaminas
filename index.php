@@ -148,7 +148,7 @@ if($requestMethod == "GET"){
     }
   }
 
-  elseif($argu[1] == "user"){
-
+  else{
+    echo Error::noArgumentos(); 
   }
 }
