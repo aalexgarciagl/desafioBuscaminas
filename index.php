@@ -43,8 +43,13 @@ if($requestMethod == "GET"){
     
     if(count($argu) == 2 && $argu[2] == "ranking"){
       echo Controller::mostrarRainkgJugadores();
-    }
-  
+    }elseif(count($argu) == 1){
+      echo Error::noArgumentos();
+    }elseif(count($argu) > 2){
+      echo Error::demasiadosArgumentos(); 
+    }else{
+      echo Error::noArgumentos(); 
+    }  
     
 
   }else{

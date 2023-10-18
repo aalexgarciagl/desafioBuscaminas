@@ -55,10 +55,10 @@ class Error{
 
   static function eliminarPersona(){
     $cod = 400;
-    $mes = "error";
+    $mes = "fallo al eliminar";
     header('HTTP/1.1 '.$cod.' '.$mes);
     return json_encode(["cod" => $cod,
-                        "mes" => "fallo al eliminar"]);
+                        "mes" => $mes]);
   }
 
   static function demasiadosArgumentos(){
@@ -76,4 +76,12 @@ class Error{
     return json_encode(["cod" => $cod,
                         "mes" => $mes]);
   }
+
+  static function usuarioNoExiste(){
+    $cod = 400;
+    $mes = "Usuario no encontrado";
+    header('HTTP/1.1 '.$cod.' '.$mes);
+    return json_encode(["cod" => $cod,
+                        "mes" => $mes]);
+  }  
 }
