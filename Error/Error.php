@@ -3,10 +3,33 @@
 
 class Error{
 
+  static function partidaFinalizada(){
+    $cod = 400;
+    $mes = "Partida finalizada";
+    header('HTTP/1.1 '.$cod.' '.$mes);
+    return json_encode(["cod" => $cod,
+                        "mes" => $mes]); 
+  }
+
+  static function fueraRango(){
+    $cod = 400;
+    $mes = "Casilla fuera de rango";
+    header('HTTP/1.1 '.$cod.' '.$mes);
+    return json_encode(["cod" => $cod,
+                        "mes" => $mes]); 
+  }
 
   static function permisosAdminDenegados(){
     $cod = 400;
     $mes = "No tienes permisos de administrador";
+    header('HTTP/1.1 '.$cod.' '.$mes);
+    return json_encode(["cod" => $cod,
+                        "mes" => $mes]); 
+  }
+
+  static function usuarioIncorrecto(){
+    $cod = 400;
+    $mes = "Login incorrecto";
     header('HTTP/1.1 '.$cod.' '.$mes);
     return json_encode(["cod" => $cod,
                         "mes" => $mes]); 
