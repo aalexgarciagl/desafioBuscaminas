@@ -22,6 +22,13 @@ use User\User;
 class Controller{ 
 
 
+  static function nuevoUsuario(){
+    $datosJSON = json_decode(file_get_contents("php://input"),true);    
+    $newUser = new User("DEFAULT",$datosJSON["newUserName"],$datosJSON["newUserCorreo"],$datosJSON["newUserPass"],0,0,0); 
+    ConexionBD::insertarPersona($newUser); 
+    return json_encode("usuario: ".$newUser->nombre." creado correctamente");
+  }
+
   //Cambia la contraseña del usuario con el correo que le pasemos por el JSON. 
   static function cambiarPassUser(){
     $datosJSON = json_decode(file_get_contents("php://input"),true);

@@ -68,11 +68,13 @@ if($requestMethod == "GET"){
       //Crea tablero tamaño predeterminado
       Controller::crearTableroDefault(); 
 
-    }elseif(count($argu) >= 2 && $argu[2] != "play"){
+    }elseif(count($argu) >= 2 && $argu[2] != "play" && $argu[2] != "createUser"){
       //Crea tablero con tamaño y minas dados
       $size = $argu[2];
       $minas = $argu[3];
       Controller::crearTableroVariable($size,$minas);
+    }elseif(count($argu) == 2 && $argu[2] = "createUser"){
+      echo Controller::nuevoUsuario(); 
 
     }elseif($argu[2] == "play" && count($argu) < 3){
       Controller::destaparCasilla(null); 
