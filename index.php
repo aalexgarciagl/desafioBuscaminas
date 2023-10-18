@@ -30,8 +30,10 @@ if($requestMethod == "GET"){
       //ADMIN: Busca usuario por el correo.
       echo Controller::mostrarUsuario($argu[2]); 
       
-    }else{
+    }elseif(count($argu) > 2){
       echo Error::demasiadosArgumentos();
+    }elseif(count($argu) < 1){
+      echo Error::noArgumentos(); 
     }
 
   }
@@ -47,7 +49,7 @@ if($requestMethod == "GET"){
 
   }else{
     echo Error::noArgumentos();
-  }  
+  }
   
 
 }elseif($requestMethod == "POST"){

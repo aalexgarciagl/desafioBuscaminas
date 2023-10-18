@@ -71,7 +71,7 @@ class Error{
 
   static function noArgumentos(){
     $cod = 400;
-    $mes = "argumento no soportado";
+    $mes = "sin argumentos";
     header('HTTP/1.1 '.$cod.' '.$mes);
     return json_encode(["cod" => $cod,
                         "mes" => $mes]);
