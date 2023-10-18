@@ -15,7 +15,7 @@
 
 ### Credenciales de admin: 
   **User:** admin@gmail
-  **Password:** p6jbfQF6
+  **Password:** admin1234
 
 
 ## Funciones disponibles: 
