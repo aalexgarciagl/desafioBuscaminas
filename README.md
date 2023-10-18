@@ -25,32 +25,32 @@ El campo **"casilla"** sirve para seleccionar la casilla que queremos marcar a l
 Si no tenemos ningun usuario, con la ruta: **POST/user/createUser + JSON** podremos crearnos un usuario sin permisos de administrador. 
 
 
-## Funciones admin
+## ***Funciones admin***
 Para que las siguientes rutas funcionen, el usuario que le pasemos por los campos del JSON **"correo"** y **"pass"** debera tener permisos de adminisitrador.
-### Listar usuarios: 
+### -Listar usuarios: 
 **GET/localhost/admin**
-### Listar usuario por correo: 
+### -Listar usuario por correo: 
 **GET/localhost/admin/{correo}**
-### Modificar usuario: 
+### -Modificar usuario: 
 **PUT/localhost/admin/{correo}** + **JSON**
-### Eliminar usuario: 
+### -Eliminar usuario: 
 **DELETE/localhost/admin/{correo}**
-### Registrar usuario: 
+### -Registrar usuario: 
 **POST/localhost/admin/** + **JSON**
 
-## Funciones user
+## ***Funciones user***
 Todas las personas con un usuario en la base de datos, sean adminstradores o no, podran acceder a todas las siguientes rutas. 
-### Crear partidas de tamaño estandar (10 huecos/3 minas): 
+### -Crear partidas de tamaño estandar (10 huecos/3 minas): 
 **POST/localhost/user**
-### Crear partidas de tamaño personalizado: 
+### -Crear partidas de tamaño personalizado: 
 **POST/localhost/user/{tamaño}/{minas}**
-### Ver partidas disponibles: 
+### -Ver partidas disponibles: 
 **POST/localhost/user/play**
-### Ver partidas disponibles: 
+### -Ver partidas disponibles: 
 **POST/localhost/user/play/{id}** + **JSON** 
-### Rendirse: 
+### -Rendirse: 
 **POST/localhost/user/play/{id}/ff** 
-### Ver ranking de jugadores: 
+### -Ver ranking de jugadores: 
 **GET/localhost/user/ranking**
-### Solicitar nueva contraseña: 
+### -Solicitar nueva contraseña: 
 **PUT/localhost/user/newpass** 
