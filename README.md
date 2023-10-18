@@ -46,7 +46,7 @@ POST/localhost/user
 POST/localhost/user/{tamaño}/{minas}
 ### -Ver partidas disponibles: 
 POST/localhost/user/play
-### -Ver partidas disponibles: 
+### -Jugar partida: 
 POST/localhost/user/play/{id} + JSON
 ### -Rendirse: 
 POST/localhost/user/play/{id}/ff
