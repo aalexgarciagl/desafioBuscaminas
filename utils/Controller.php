@@ -6,6 +6,9 @@ use Constantes\Constantes;
 require_once (__DIR__."/../conexion/ConexionBD.php");
 require_once (__DIR__."/../Error/Error.php");
 require_once (__DIR__."/../model/Partida.php"); 
+require_once (__DIR__."/Factoria.php");
+require_once (__DIR__."/../model/Partida.php");
+
 
 
 use ConexionBD\ConexionBD;
@@ -18,17 +21,18 @@ use User\User;
 
 class Controller{ 
 
+
+  //Cambia la contraseña del usuario con el correo que le pasemos por el JSON. 
   static function cambiarPassUser(){
     $datosJSON = json_decode(file_get_contents("php://input"),true);
     $user = ConexionBD::seleccionarUser($datosJSON["correo"]);
-    if($user->correo == $datosJSON["correo"] && $user->password == sha1($datosJSON["pass"])){
-      $newPassword = self::generarContrasenaAleatoria(); 
-      if(Factoria::sendMail($user,"Nueva Contraseña",$newPassword)){
-        
-      } 
-    }else{
-      echo Error::usuarioIncorrecto(); 
-    }
+    
+    $newPassword = self::generarContrasenaAleatoria(); 
+    if(Factoria::sendMail($user,"Nueva pass",$newPassword)){
+      $user->password = $newPassword; 
+      echo Factoria::updatePasswordUser($user); 
+    } 
+    
 
   }
 

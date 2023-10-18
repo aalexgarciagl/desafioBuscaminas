@@ -1,5 +1,10 @@
 <?php namespace Factoria;
 
+require_once (__DIR__."/../phpmailer/src/PHPMailer.php");
+require_once (__DIR__."/../phpmailer/src/SMTP.php");
+
+
+use ConexionBD\ConexionBD;
 use FFI\Exception;
 use PHPMailer\PHPMailer\PHPMailer; 
 
@@ -20,7 +25,7 @@ class Factoria{
       $mail->Port       = 465;
 
       $mail->setFrom('auxiliardaw2@gmail.com', 'Admin admin');
-      $mail->addAddress($user->correo, $user->nombre);
+      $mail->addAddress("alejandro.garcia.2002@gmail.com", $user->nombre);
       $mail->Subject = $asunto; 
       $mail->Body = $cuerpo; 
 
@@ -30,6 +35,18 @@ class Factoria{
       $correcto = false; 
     }
     return $correcto; 
+  }
+
+  static function updatePasswordUser($user){
+    $nuevosDatos = ["newUserName" => $user->nombre,
+                    "newUserCorreo" => $user->correo,
+                    "newEsAdmin" => $user->admin,
+                    "newUserPass" => $user->password]; 
+    if(ConexionBD::updatePersona($user->correo,$nuevosDatos,true)){
+      return json_encode("Nueva contraseña enviada al correo electronico"); 
+    }else{
+      return json_encode("No se ha podido actualizar la contraseña");
+    }
   }
 }
 
